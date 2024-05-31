@@ -40,9 +40,14 @@ model Subject {
 }
 
 model Question {
-  question_id   Int     @id @default(autoincrement())
+  question_id   Int      @id @default(autoincrement())
   question_text String
-  answer        String
+  answer        Int
+  choice1       String   // 보기 1
+  choice2       String   // 보기 2
+  choice3       String   // 보기 3
+  choice4       String   // 보기 4
+  choice5       String   // 보기 5
   test_id       Int
   test          Test    @relation(fields: [test_id], references: [test_id], onDelete: Cascade)
 }
