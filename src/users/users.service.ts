@@ -16,6 +16,10 @@ export class UsersService {
     return `This action returns a #${id} user`;
   }
 
+  findOneByKakaoId(kakaoId: number) {
+    return `This action returns a user by kakaoId`;
+  }
+
   update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
   }

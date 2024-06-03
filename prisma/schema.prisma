@@ -16,7 +16,8 @@ datasource db {
 model User {
   user_id     Int          @id @default(autoincrement())
   user_name   String
-  user_email  String       @unique
+  user_email  String?       @unique
+  token       String?
   platform    String
   role        String
   created_at  DateTime     @default(now())
