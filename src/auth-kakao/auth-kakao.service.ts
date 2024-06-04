@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
 
 @Injectable()
 export class AuthKakaoService {
@@ -9,22 +10,21 @@ export class AuthKakaoService {
     private jwtService: JwtService
   ) {}
 
-  async validateKakaoUser(profile: any) {
-    const kakaoId = profile.id;
+  async validateKakaoUser(createUserDto: CreateUserDto) {
+    const { kakaoId, name } = createUserDto;
     let user = await this.usersService.findOneByKakaoId(kakaoId);
     if (!user) {
       user = await this.usersService.create({
-        user_name: profile.username,
-        user_email: profile._json.kakao_account.email,
-        platform: 'KAKAO',
-        role: 'USER',
+        kakaoId,
+        name,
+        // email: profile?.kakao_account?.email || null, // 필요하다면 이메일 추가
       });
     }
     return user;
   }
 
   async login(user: any) {
-    const payload = { user_id: user.user_id, user_name: user.user_name };
+    const payload = { id: user.kakaoId, name: user.name };
     return {
       access_token: this.jwtService.sign(payload),
     };

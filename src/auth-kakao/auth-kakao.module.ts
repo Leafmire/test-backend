@@ -1,17 +1,12 @@
-import { forwardRef, Module } from '@nestjs/common';
-import { PassportModule } from '@nestjs/passport';
-import { KakaoStrategy } from 'src/auth-kakao/kakao.strategy';
-import { UsersModule } from 'src/users/users.module';
+import { Module } from '@nestjs/common';
 import { AuthKakaoService } from './auth-kakao.service';
 import { AuthKakaoController } from './auth-kakao.controller';
+import { PrismaService } from '../prisma/prisma.service';
+import { UsersService } from 'src/users/users.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
-  imports: [
-    forwardRef(() => UsersModule),
-    PassportModule.register({ defaultStrategy: 'jwt' }),
-  ],
+  providers: [JwtService, UsersService ,AuthKakaoService, PrismaService],
   controllers: [AuthKakaoController],
-  providers: [AuthKakaoService, KakaoStrategy],
-  exports: [AuthKakaoService, PassportModule],
 })
 export class AuthKakaoModule {}

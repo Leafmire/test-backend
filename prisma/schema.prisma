@@ -14,15 +14,14 @@ datasource db {
 }
 
 model User {
-  user_id     Int          @id @default(autoincrement())
-  user_name   String
-  user_email  String?       @unique
+  id          Int      @id @default(autoincrement())
+  email       String?   @unique
+  kakaoId     String   @unique
+  name        String
   token       String?
-  platform    String
-  role        String
-  created_at  DateTime     @default(now())
-  updated_at  DateTime     @updatedAt
-  testResults TestResult[]
+  TestResults TestResult[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Test {
@@ -31,7 +30,6 @@ model Test {
   subject_id  Int
   subject     Subject      @relation(fields: [subject_id], references: [subject_id], onDelete: Cascade)
   questions   Question[]
-  testResults TestResult[]
 }
 
 model Subject {
@@ -44,11 +42,11 @@ model Question {
   question_id   Int      @id @default(autoincrement())
   question_text String
   answer        Int
-  choice1       String   // 보기 1
-  choice2       String   // 보기 2
-  choice3       String   // 보기 3
-  choice4       String   // 보기 4
-  choice5       String   // 보기 5
+  choice1       String?   // 보기 1
+  choice2       String?   // 보기 2
+  choice3       String?   // 보기 3
+  choice4       String?   // 보기 4
+  choice5       String?   // 보기 5
   test_id       Int
   test          Test    @relation(fields: [test_id], references: [test_id], onDelete: Cascade)
 }
@@ -56,9 +54,8 @@ model Question {
 model TestResult {
   result_id  Int      @id @default(autoincrement())
   user_id    Int
-  user       User     @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
   test_id    Int
-  test       Test     @relation(fields: [test_id], references: [test_id], onDelete: Cascade)
   score      Int
   created_at DateTime @default(now())
 }
