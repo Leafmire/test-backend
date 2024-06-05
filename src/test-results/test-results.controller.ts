@@ -17,6 +17,11 @@ export class TestResultsController {
     return this.testResultsService.findAll();
   }
 
+  @Get(':user_id')
+  findAllByUser(@Param('user_id') userId: string) {
+    return this.testResultsService.findAllByUser(userId);
+  }
+
   @Get(':user_id/:test_id')
   findOne(@Param('user_id') userId: string, @Param('test_id') testId: string
   ) {

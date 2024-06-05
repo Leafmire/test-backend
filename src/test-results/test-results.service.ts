@@ -14,7 +14,15 @@ export class TestResultsService {
   }
 
   findAll() {
-    return `This action returns all testResults`;
+    return this.prisma.testResult.findMany({});
+  }
+
+  async findAllByUser(userId: string) {
+    return this.prisma.testResult.findMany({
+      where: {
+        user_id: parseInt(userId)
+      }
+    });
   }
 
   async findOne(userId: string, testId: string) {
